@@ -9,9 +9,6 @@ public class TwitterAppKeys {
     private String consumerKey;
     private String consumerSecret;
 
-    public TwitterAppKeys() {
-    }
-
     public TwitterAppKeys(String consumerKey, String consumerSecret) {
         this.consumerKey = consumerKey;
         this.consumerSecret = consumerSecret;

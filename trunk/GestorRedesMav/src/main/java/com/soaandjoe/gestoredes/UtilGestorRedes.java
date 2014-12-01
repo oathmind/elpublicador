@@ -1,4 +1,4 @@
-package com.soaandjoe.gestredes;
+package com.soaandjoe.gestoredes;
 
 import com.soaandjoe.twitter.TwitterAppKeys;
 import java.io.File;

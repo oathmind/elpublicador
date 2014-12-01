@@ -28,7 +28,7 @@ public class UtilGestorRedes {
             fitxerClausTwitter = new File(Thread.currentThread().getContextClassLoader().getResource("twitter.xml").toURI());
         } catch (URISyntaxException ex) {
             Logger.getLogger(UtilGestorRedes.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return new TwitterAppKeys("V1IDcXJiN5vqYmebrHc802qj1", "GrqKRyI8hVZMVESPqWxYfEyxCQJLK89McRVkS1FZXkqFYcFmiS");
         }
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

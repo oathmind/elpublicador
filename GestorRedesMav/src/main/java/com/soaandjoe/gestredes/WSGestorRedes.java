@@ -5,9 +5,15 @@
  */
 package com.soaandjoe.gestredes;
 
+import com.soaandjoe.gestredes.persistencia.Conexion;
 import com.soaandjoe.twitter.TwitterAppKeys;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.naming.NamingException;
 
 /**
  *
@@ -25,6 +31,23 @@ public class WSGestorRedes {
         TwitterAppKeys obtenerClavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();
         return obtenerClavesTwitter;
     }
+    
+    
+    @WebMethod(operationName = "testDatabase")
+    public boolean testDatabase() {
+        Connection c = null;
+        try {
+            c = Conexion.getConnexio();
+            c.close();
+        } catch (NamingException ex) {
+            Logger.getLogger(WSGestorRedes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(WSGestorRedes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return c != null;
+    }
+    
+    
     
     
     /**

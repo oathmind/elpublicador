@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="gestorRedes" targetNamespace="http://gestoredes.soaandjoe.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://gestoredes.soaandjoe.com/"   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <xs:schema targetNamespace="http://gestoredes.soaandjoe.com/">
+
+            <xs:element name="obtenerURLVinculacionTwitterResponse" type="tns:obtenerURLVinculacionTwitterResponse"></xs:element>
+           
+            <xs:complexType name="obtenerURLVinculacionTwitterResponse">
+                <xs:sequence>
+                    <xs:element name="url" type="xs:string"></xs:element>
+                    <xs:element name="token" type="xs:string" ></xs:element>
+                    <xs:element name="tokenSecret" type="xs:string" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+
+        </xs:schema>
+    </wsdl:types>
+    
+    <wsdl:message name="obtenerURLVinculacionTwitter">
+       
+    </wsdl:message>
+    <wsdl:message name="obtenerURLVinculacionTwitterResponse">
+        <wsdl:part name="parameters" element="tns:obtenerURLVinculacionTwitterResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:portType name="gestorRedesWSCV">
+        <wsdl:operation name="obtenerURLVinculacionTwitter">
+            <wsdl:input message="tns:obtenerURLVinculacionTwitter"></wsdl:input>
+            <wsdl:output message="tns:obtenerURLVinculacionTwitterResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="gestorRedesPortBinding" type="tns:gestorRedesWSCV">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+        <wsdl:operation name="obtenerURLVinculacionTwitter">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    
+    <wsdl:service name="gestorRedes">
+        <wsdl:port name="gestorRedesPort" binding="tns:gestorRedesPortBinding">
+            <soap:address location="http://localhost:8080/gestorRedes/gestorRedesWSCVService"></soap:address>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

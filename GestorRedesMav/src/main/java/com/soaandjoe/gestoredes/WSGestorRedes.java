@@ -6,8 +6,13 @@
 package com.soaandjoe.gestoredes;
 
 import com.soaandjoe.twitter.TwitterAppKeys;
+import com.soaandjoe.twitter.TwitterUserTokens;
+import com.soaandjoe.twitter.TwitterUtil;
+import com.soaandjoe.twitter.UrlKey;
+import com.soaandjoe.twitter.UrlKeyUsuario;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 
 /**
  *
@@ -16,19 +21,39 @@ import javax.jws.WebMethod;
 @WebService(serviceName = "WSGestorRedes")
 public class WSGestorRedes {
 
-    /**
-     * This is a sample web service operation
-     * @return 
-     */
-    @WebMethod(operationName = "obtenerClavesTwitter")
-    public TwitterAppKeys obtenerClavesTwitter() {
-        TwitterAppKeys obtenerClavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();
-        return obtenerClavesTwitter;
+    @WebMethod(operationName = "obtenerURLVincularTwitter")
+    public UrlKey obtenerURLVincularTwitter() {
+        TwitterAppKeys clavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();
+        TwitterUtil tu = new TwitterUtil(clavesTwitter);
+        tu.obtenerUrlParaKeyUsuario();
+        return tu.obtenerUrlParaKeyUsuario();
     }
-    
-    
-    
-    
+
+    @WebMethod(operationName = "obtenerTokensFinalesTwitter")
+    public TwitterUserTokens obtenerTokensFinalesTwitter(@WebParam(name = "clavesTemporales") UrlKeyUsuario clavesTemporales) {
+        TwitterAppKeys clavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();
+        TwitterUtil tu = new TwitterUtil(clavesTwitter);
+        TwitterUserTokens tokens = tu.obtenerTokensUsuario(clavesTemporales);
+        return tokens;
+    }
+
+    @WebMethod(operationName = "publicarMensajes")
+    public boolean publicarMensajes(@WebParam(name = "mensaje") String mensaje,
+            @WebParam(name = "publicarTwitter") boolean publicarTwitter,
+            @WebParam(name = "clavesTwitter") TwitterUserTokens clavesUsuarioTwitter,
+            @WebParam(name = "publicarFacebook") boolean publicarFacebook,
+            @WebParam(name = "publicarGooglePlus") boolean publicarGooglePlus) {
+        if (publicarTwitter) {
+            TwitterAppKeys clavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();
+            TwitterUtil tu = new TwitterUtil(clavesTwitter);
+            tu.publicarTwitter(mensaje, clavesUsuarioTwitter);
+        }
+        if (publicarFacebook) {
+        }
+        if (publicarGooglePlus) {
+        }
+        return true;
+    }
     /**
      * This is a sample web service operation
      */

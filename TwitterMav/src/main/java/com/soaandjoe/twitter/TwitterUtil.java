@@ -118,8 +118,8 @@ public class TwitterUtil {
     public static void main(String[] args) throws IOException, TwitterException {
         TwitterAppKeys claves = new TwitterAppKeys("V1IDcXJiN5vqYmebrHc802qj1", "GrqKRyI8hVZMVESPqWxYfEyxCQJLK89McRVkS1FZXkqFYcFmiS");
         TwitterUtil tt = new TwitterUtil(claves);
-        
-        
+
+
 
         //1
         UrlKey obtenerUrlParaKeyUsuario = tt.obtenerUrlParaKeyUsuario();

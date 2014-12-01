@@ -9,6 +9,9 @@ public class TwitterUserTokens {
     private String token;
     private String tokenSecret;
 
+    public TwitterUserTokens() {
+    }
+
     public TwitterUserTokens(String token, String tokenSecret) {
         this.token = token;
         this.tokenSecret = tokenSecret;
@@ -29,5 +32,4 @@ public class TwitterUserTokens {
     public void setTokenSecret(String tokenSecret) {
         this.tokenSecret = tokenSecret;
     }
-
 }

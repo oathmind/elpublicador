@@ -10,6 +10,9 @@ public class UrlKeyUsuario {
     private String token;
     private String tokenSecret;
 
+    public UrlKeyUsuario() {
+    }
+
     public UrlKeyUsuario(String token, String tokenSecret, String key) {
         this.token = token;
         this.tokenSecret = tokenSecret;
@@ -39,5 +42,4 @@ public class UrlKeyUsuario {
     public void setTokenSecret(String tokenSecret) {
         this.tokenSecret = tokenSecret;
     }
-
 }

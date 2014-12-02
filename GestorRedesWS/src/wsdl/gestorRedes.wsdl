@@ -2,12 +2,55 @@
 <wsdl:definitions name="gestorRedes" targetNamespace="http://gestoredes.soaandjoe.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://gestoredes.soaandjoe.com/"   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     <wsdl:types>
         <xs:schema targetNamespace="http://gestoredes.soaandjoe.com/">
-
+            <!--UC1 Obtencion de URL para vincular twitter-->
+            <xs:element name="obtenerURLVinculacionTwitter" type="tns:obtenerURLVinculacionTwitter"></xs:element>
             <xs:element name="obtenerURLVinculacionTwitterResponse" type="tns:obtenerURLVinculacionTwitterResponse"></xs:element>
+            <!--UC2 Obtencion token final Usuario-->
+            <xs:element name="obtenerTokenFinalTwitter" type="tns:obtenerTokenFinalTwitter"></xs:element>
+            <xs:element name="obtenerTokenFinalTwitterResponse" type="tns:obtenerTokenFinalTwitterResponse"></xs:element>
            
+            <!--UC1 Obtencion de URL para vincular twitter-->
+            <!--No hay parametros de entrada-->
+            <xs:complexType name="obtenerURLVinculacionTwitter">
+                <xs:sequence>
+                </xs:sequence>
+            </xs:complexType>
             <xs:complexType name="obtenerURLVinculacionTwitterResponse">
                 <xs:sequence>
-                    <xs:element name="url" type="xs:string"></xs:element>
+                    <xs:element name="return" type="tns:responseURLVinculacionTwitterBean" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="responseURLVinculacionTwitterBean">
+                <xs:sequence>
+                    <xs:element name="url" type="xs:string" ></xs:element>
+                    <xs:element name="token" type="xs:string" ></xs:element>
+                    <xs:element name="tokenSecret" type="xs:string" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            
+            
+            
+            
+            <!--UC2 Obtencion token final Usuario-->
+            <xs:complexType name="obtenerTokenFinalTwitter">
+                <xs:sequence>
+                    <xs:element name="tokenTemporal" type="tns:TokenFinalTwitterBean" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="TokenFinalTwitterBean">
+                <xs:sequence>
+                    <xs:element name="token" type="xs:string" ></xs:element>
+                    <xs:element name="tokenSecret" type="xs:string" ></xs:element>
+                    <xs:element name="key" type="xs:string"></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="obtenerTokenFinalTwitterResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="tns:responseTokenFinalTwitterBean" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="responseTokenFinalTwitterBean">
+                <xs:sequence>
                     <xs:element name="token" type="xs:string" ></xs:element>
                     <xs:element name="tokenSecret" type="xs:string" ></xs:element>
                 </xs:sequence>
@@ -16,7 +59,10 @@
         </xs:schema>
     </wsdl:types>
     
+    <!--UC1 Obtencion de URL para vincular twitter-->
     <wsdl:message name="obtenerURLVinculacionTwitter">
+        <wsdl:part name="parameters" element="tns:obtenerURLVinculacionTwitter">
+        </wsdl:part>
     </wsdl:message>
     
     <wsdl:message name="obtenerURLVinculacionTwitterResponse">
@@ -24,16 +70,44 @@
         </wsdl:part>
     </wsdl:message>
     
+    <!--UC2 Obtencion token final Usuario-->
+    <wsdl:message name="obtenerTokenFinalTwitter">
+        <wsdl:part name="parameters" element="tns:obtenerTokenFinalTwitter">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="obtenerTokenFinalTwitterResponse">
+        <wsdl:part name="parameters" element="tns:obtenerTokenFinalTwitterResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
     <wsdl:portType name="gestorRedesWSCV">
+        <!--UC1 Obtencion de URL para vincular twitter-->
         <wsdl:operation name="obtenerURLVinculacionTwitter">
             <wsdl:input message="tns:obtenerURLVinculacionTwitter"></wsdl:input>
             <wsdl:output message="tns:obtenerURLVinculacionTwitterResponse"></wsdl:output>
+        </wsdl:operation>
+        <!--UC2 Obtencion token final Usuario-->
+        <wsdl:operation name="obtenerTokenFinalTwitter">
+            <wsdl:input message="tns:obtenerTokenFinalTwitter"></wsdl:input>
+            <wsdl:output message="tns:obtenerTokenFinalTwitterResponse"></wsdl:output>
         </wsdl:operation>
     </wsdl:portType>
     
     <wsdl:binding name="gestorRedesPortBinding" type="tns:gestorRedesWSCV">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+        <!--UC1 Obtencion de URL para vincular twitter-->
         <wsdl:operation name="obtenerURLVinculacionTwitter">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC2 Obtencion token final Usuario-->
+        <wsdl:operation name="obtenerTokenFinalTwitter">
             <soap:operation soapAction=""></soap:operation>
             <wsdl:input>
                 <soap:body use="literal"></soap:body>

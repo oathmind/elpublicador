@@ -17,8 +17,8 @@
     </wsdl:types>
     
     <wsdl:message name="obtenerURLVinculacionTwitter">
-       
     </wsdl:message>
+    
     <wsdl:message name="obtenerURLVinculacionTwitterResponse">
         <wsdl:part name="parameters" element="tns:obtenerURLVinculacionTwitterResponse">
         </wsdl:part>

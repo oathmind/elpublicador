@@ -11,7 +11,7 @@ import javax.jws.WebService;
  * @author jmol
  */
 @WebService(serviceName = "gestorRedes", portName = "gestorRedesPort", endpointInterface = "com.soaandjoe.gestoredes.GestorRedesWSCV", targetNamespace = "http://gestoredes.soaandjoe.com/", wsdlLocation = "WEB-INF/wsdl/gestorRedes.wsdl")
-public class gestorRedesWS {
+public class GestorRedesWS {
 
     public ObtenerURLVinculacionTwitterResponse obtenerURLVinculacionTwitter() {
         TwitterAppKeys clavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();

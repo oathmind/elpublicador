@@ -86,7 +86,7 @@
                             </wsdlFiles>
                             <staleFile>${project.build.directory}/jaxws/stale/gestorRedes.wsdl.stale</staleFile>
                         </configuration>
-                        <id>wsimport-generate-cdsWSCampusVirtualService</id>
+                        <id>wsimport-generate-gestorRedes</id>
                         <phase>generate-sources</phase>
                     </execution>
                 </executions>

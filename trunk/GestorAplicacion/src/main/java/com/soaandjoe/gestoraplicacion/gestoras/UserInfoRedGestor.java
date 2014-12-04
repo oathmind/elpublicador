@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.soaandjoe.gestoraplicacion.dao;
-
-import com.soaandjoe.gestoraplicacion.gestoras.UserGestor;
+package com.soaandjoe.gestoraplicacion.gestoras;
 
 /**
  *
  * @author andres
  */
-public class UserDAO {
-    
-    public UserGestor getUsuario() {
-        return null;
-    }
+public class UserInfoRedGestor {
     
 }

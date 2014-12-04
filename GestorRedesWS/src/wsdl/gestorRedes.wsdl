@@ -8,6 +8,10 @@
             <!--UC2 Obtencion token final Usuario-->
             <xs:element name="obtenerTokenFinalTwitter" type="tns:obtenerTokenFinalTwitter"></xs:element>
             <xs:element name="obtenerTokenFinalTwitterResponse" type="tns:obtenerTokenFinalTwitterResponse"></xs:element>
+          
+            <!--UC3 Publicar Mensaje en redes sociales-->
+            <xs:element name="publicarMensaje" type="tns:publicarMensaje"></xs:element>
+            <xs:element name="publicarMensajeResponse" type="tns:publicarMensajeResponse"></xs:element>
            
             <!--UC1 Obtencion de URL para vincular twitter-->
             <!--No hay parametros de entrada-->
@@ -34,10 +38,10 @@
             <!--UC2 Obtencion token final Usuario-->
             <xs:complexType name="obtenerTokenFinalTwitter">
                 <xs:sequence>
-                    <xs:element name="tokenTemporal" type="tns:TokenFinalTwitterBean" ></xs:element>
+                    <xs:element name="tokenTemporal" type="tns:tokenFinalTwitterBean" ></xs:element>
                 </xs:sequence>
             </xs:complexType>
-            <xs:complexType name="TokenFinalTwitterBean">
+            <xs:complexType name="tokenFinalTwitterBean">
                 <xs:sequence>
                     <xs:element name="token" type="xs:string" ></xs:element>
                     <xs:element name="tokenSecret" type="xs:string" ></xs:element>
@@ -55,7 +59,52 @@
                     <xs:element name="tokenSecret" type="xs:string" ></xs:element>
                 </xs:sequence>
             </xs:complexType>
-
+            
+            
+            <!--UC3 Publicar Mensaje en redes sociales-->
+            <xs:complexType name="publicarMensaje">
+                <xs:sequence>
+                    <xs:element name="mensaje" type="xs:string" ></xs:element>
+                    <xs:element name="configuracionesRedes" type="tns:configuracionesRedesBean" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="configuracionesRedesBean">
+                <xs:sequence>
+                    <xs:element name="codigosTwitter" type="tns:codigosTwitterBean" minOccurs="0" ></xs:element>
+                    <xs:element name="codigosFacebook" type="tns:codigosFacebookBean" minOccurs="0" ></xs:element>
+                    <xs:element name="codigosGoogle" type="tns:codigosGoogleBean" minOccurs="0" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="codigosTwitterBean">
+                <xs:sequence>
+                    <xs:element name="token" type="xs:string" ></xs:element>
+                    <xs:element name="tokenSecret" type="xs:string" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="codigosFacebookBean">
+                <xs:sequence>
+                    <xs:element name="token" type="xs:string" ></xs:element>
+                    <xs:element name="tokenSecret" type="xs:string" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="codigosGoogleBean">
+                <xs:sequence>
+                    <xs:element name="token" type="xs:string" ></xs:element>
+                    <xs:element name="tokenSecret" type="xs:string" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="publicarMensajeResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="tns:responseMensajeBean" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="responseMensajeBean">
+                <xs:sequence>
+                    <xs:element name="twitterOk" type="xs:boolean" ></xs:element>
+                    <xs:element name="facebookOk" type="xs:boolean" ></xs:element>
+                    <xs:element name="googleOk" type="xs:boolean" ></xs:element>
+                </xs:sequence>
+            </xs:complexType>
         </xs:schema>
     </wsdl:types>
     
@@ -81,6 +130,17 @@
         </wsdl:part>
     </wsdl:message>
     
+    <!--UC3 Publicar Mensaje en redes sociales-->
+    <wsdl:message name="publicarMensaje">
+        <wsdl:part name="parameters" element="tns:publicarMensaje">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="publicarMensajeResponse">
+        <wsdl:part name="parameters" element="tns:publicarMensajeResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
     <wsdl:portType name="gestorRedesWSCV">
         <!--UC1 Obtencion de URL para vincular twitter-->
         <wsdl:operation name="obtenerURLVinculacionTwitter">
@@ -91,6 +151,11 @@
         <wsdl:operation name="obtenerTokenFinalTwitter">
             <wsdl:input message="tns:obtenerTokenFinalTwitter"></wsdl:input>
             <wsdl:output message="tns:obtenerTokenFinalTwitterResponse"></wsdl:output>
+        </wsdl:operation>
+        <!--UC3 Publicar Mensaje en redes sociales-->
+        <wsdl:operation name="publicarMensaje">
+            <wsdl:input message="tns:publicarMensaje"></wsdl:input>
+            <wsdl:output message="tns:publicarMensajeResponse"></wsdl:output>
         </wsdl:operation>
     </wsdl:portType>
     
@@ -108,6 +173,16 @@
         </wsdl:operation>
         <!--UC2 Obtencion token final Usuario-->
         <wsdl:operation name="obtenerTokenFinalTwitter">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input>
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC3 Publicar Mensaje en redes sociales-->
+        <wsdl:operation name="publicarMensaje">
             <soap:operation soapAction=""></soap:operation>
             <wsdl:input>
                 <soap:body use="literal"></soap:body>

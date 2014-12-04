@@ -7,7 +7,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletPublicadorWeb</servlet-name>
-        <url-pattern>/ServletPublicadorWeb</url-pattern>
+        <url-pattern>/*.publicador</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

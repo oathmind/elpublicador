@@ -26,7 +26,7 @@ public class UtilGestorRedes {
         try {
             //La ruta tiene que estar en el classpath
             fitxerClausTwitter = new File(Thread.currentThread().getContextClassLoader().getResource("twitter.xml").toURI());
-        } catch (URISyntaxException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UtilGestorRedes.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }

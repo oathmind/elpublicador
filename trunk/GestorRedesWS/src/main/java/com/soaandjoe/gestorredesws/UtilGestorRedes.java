@@ -22,14 +22,11 @@ import org.xml.sax.SAXException;
 public class UtilGestorRedes {
 
     public TwitterAppKeys obtenerClavesTwitter() {
+        
         File fitxerClausTwitter;
-        try {
-            //La ruta tiene que estar en el classpath
-            fitxerClausTwitter = new File(Thread.currentThread().getContextClassLoader().getResource("twitter.xml").toURI());
-        } catch (Exception ex) {
-            Logger.getLogger(UtilGestorRedes.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
+        String ruta = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        ruta = ruta.substring(0, ruta.lastIndexOf("WEB-INF"));
+        fitxerClausTwitter = new File(ruta + "WEB-INF/twitter.xml");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         Document documento = null;

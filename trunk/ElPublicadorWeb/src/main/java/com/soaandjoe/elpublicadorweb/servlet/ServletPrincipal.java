@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.soaandjoe.gestoraplicacion.servlet;
+package com.soaandjoe.elpublicadorweb.servlet;
 
-import com.soaandjoe.gestoraplicacion.gestoras.UserGestor;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +13,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author andres
  */
-public class ServletPublicadorWeb extends HttpServlet {
+public class ServletPrincipal extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,37 +31,35 @@ public class ServletPublicadorWeb extends HttpServlet {
         response.setHeader("Cache-Control", "no-store");
         String url = request.getRequestURI();
         String accio = "";
-        if (url.indexOf(".publicador") != -1) {
+        if (url.contains(".publicador")) {
             accio = url.substring(url.lastIndexOf("/") + 1, url.indexOf(".publicador"));
-        }
-        HttpSession sesio = request.getSession();
-        String idUsuarioConectado  = (String) sesio.getAttribute("usuario");
 
-        
-        
-        RequestDispatcher dispatch = request.getRequestDispatcher("index.jsp");
+            HttpSession sesio = request.getSession();
+            String idUsuarioConectado = (String) sesio.getAttribute("usuario");
 
-        if (accio.equals("registrar")) {
+            RequestDispatcher dispatch = request.getRequestDispatcher("template.jsp");
+            HashMap mapeo = new HashMap(2);
+
+            if (accio.equals("inicio")) {
             //1 recuperar parametros
-            //2 validacion sintactica i de tipos
-            //EJEMPLO, password == passwordRep, mail es un correo
-            //3 enciar a controladora con los datos"validados"
-            //4 retornar a la JSP lo que toque
-            request.getParameter("usuario");
-            request.getParameter("password");
-            request.getParameter("passwordRep");
-            request.getParameter("mail");
-            UserGestor userGestor = new UserGestor();
+                //2 validacion sintactica i de tipos
+                //EJEMPLO, password == passwordRep, mail es un correo
+                //3 enciar a controladora con los datos"validados"
+                //4 retornar a la JSP lo que toque
 //            userGestor.registrar();
-            request.setAttribute("parametro1", "valor1");
-            dispatch = request.getRequestDispatcher("index.jsp");
-        } else if (accio.equals("identificarse")) {
-            
-            sesio.setAttribute("usuario", null/*idUsuarioRecuperado de base de datos*/);
-            dispatch = request.getRequestDispatcher("index.jsp");
-        }
+                mapeo.put("titulo", "El Publicador Web");
+                mapeo.put("href", "inicio.jsp");
+            } else if (accio.equals("login")) {
 
-        dispatch.forward(request, response);
+                mapeo.put("titulo", "El Publicador Web");
+                mapeo.put("href", "inicio.jsp");
+            }
+
+            request.setAttribute("mapeo", mapeo);
+            dispatch.forward(request, response);
+        } else {
+            response.sendRedirect("inicio.publicador");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

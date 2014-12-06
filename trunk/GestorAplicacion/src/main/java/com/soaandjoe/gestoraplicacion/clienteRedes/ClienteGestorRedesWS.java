@@ -21,7 +21,22 @@ public class ClienteGestorRedesWS {
             webService = new GestorRedes().getGestorRedesPort();
         }
     }
-    
+
+    public ResponseURLVinculacionTwitterBean obtenerURLVinculacionTwitter() {
+        return webService.obtenerURLVinculacionTwitter();
+    }
+
+
+    public ResponseTokenFinalTwitterBean obtenerTokenFinalTwitter(TokenFinalTwitterBean tokenTemporal) {
+        return webService.obtenerTokenFinalTwitter(tokenTemporal);
+    }
+
+
+    public ResponseMensajeBean publicarMensaje(String mensaje, ConfiguracionesRedesBean configuracionesRedes) {
+        return webService.publicarMensaje(mensaje, configuracionesRedes);
+    }
+
+
     public static void main(String[] args) {
         ResponseURLVinculacionTwitterBean obtenerURLVinculacionTwitter = new ClienteGestorRedesWS().webService.obtenerURLVinculacionTwitter();
         System.out.println(obtenerURLVinculacionTwitter.getUrl());

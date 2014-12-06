@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://gestoraplicacion.soaandjoe.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="gestorAplicacion" targetNamespace="http://gestoraplicacion.soaandjoe.com/">
+    <wsdl:types>
+        <xs:schema targetNamespace="http://gestoraplicacion.soaandjoe.com/">
+            <!--UC1 Obtencion de URL para vincular twitter-->
+            <xs:element name="obtenerHistoricoMensajes" type="tns:obtenerHistoricoMensajes"/>
+            <xs:element name="obtenerHistoricoMensajesResponse" type="tns:obtenerHistoricoMensajesResponse"/>
+           
+            <!--UC1 Obtencion de URL para vincular twitter-->
+            <xs:complexType name="obtenerHistoricoMensajes">
+                <xs:sequence>
+                    <xs:element name="idUsuario" type="xs:int"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="obtenerHistoricoMensajesResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="tns:responseHistoricoMensajesBean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="responseHistoricoMensajesBean">
+                <xs:sequence>
+                    <xs:element name="mensajes" type="tns:mensajeBean" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="mensajeBean">
+                <xs:sequence>
+                    <xs:element name="idMensaje" type="xs:int"/>
+                    <xs:element name="idUsuario" type="xs:int"/>
+                    <xs:element name="mensaje" type="xs:string"/>
+                    <xs:element name="twitter" type="xs:boolean"/>
+                    <xs:element name="facebook" type="xs:boolean"/>
+                    <xs:element name="google" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    
+    <!--UC1 Obtencion de URL para vincular twitter-->
+    <wsdl:message name="obtenerHistoricoMensajes">
+        <wsdl:part name="parameters" element="tns:obtenerHistoricoMensajes">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="obtenerHistoricoMensajesResponse">
+        <wsdl:part name="parameters" element="tns:obtenerHistoricoMensajesResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:portType name="gestorAplicacionWSCV">
+        <!--UC1 Obtencion de URL para vincular twitter-->
+        <wsdl:operation name="obtenerHistoricoMensajes">
+            <wsdl:input message="tns:obtenerHistoricoMensajes"/>
+            <wsdl:output message="tns:obtenerHistoricoMensajesResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="gestorAplicacionPortBinding" type="tns:gestorAplicacionWSCV">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <!--UC1 Obtencion de URL para vincular twitter-->
+        <wsdl:operation name="obtenerHistoricoMensajes">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    
+    <wsdl:service name="gestorAplicacion">
+        <wsdl:port name="gestorAplicacionPort" binding="tns:gestorAplicacionPortBinding">
+            <soap:address location="http://localhost:8080/GestorAplicacion/gestorAplicacion"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

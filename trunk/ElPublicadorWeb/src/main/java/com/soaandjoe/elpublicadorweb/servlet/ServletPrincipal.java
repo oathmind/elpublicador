@@ -30,33 +30,56 @@ public class ServletPrincipal extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Cache-Control", "no-store");
         String url = request.getRequestURI();
-        String accio = "";
         if (url.contains(".publicador")) {
-            accio = url.substring(url.lastIndexOf("/") + 1, url.indexOf(".publicador"));
+            String accio = url.substring(url.lastIndexOf("/") + 1, url.indexOf(".publicador"));
 
             HttpSession sesio = request.getSession();
             String idUsuarioConectado = (String) sesio.getAttribute("usuario");
 
+            boolean redireccionActiva = false;
             RequestDispatcher dispatch = request.getRequestDispatcher("template.jsp");
             HashMap mapeo = new HashMap(2);
 
-            if (accio.equals("inicio")) {
             //1 recuperar parametros
-                //2 validacion sintactica i de tipos
-                //EJEMPLO, password == passwordRep, mail es un correo
-                //3 enciar a controladora con los datos"validados"
-                //4 retornar a la JSP lo que toque
-//            userGestor.registrar();
+            //2 validacion sintactica i de tipos
+            //EJEMPLO, password == passwordRep, mail es un correo
+            //3 enciar a controladora con los datos"validados"
+            //4 retornar a la JSP lo que toque
+            //userGestor.registrar();
+            if (accio.equals("inicio")) {
+                //Si usuario en sesion -> dashboard.jsp
+                //Si no hay usuario -> inicio.jsp
                 mapeo.put("titulo", "El Publicador Web");
                 mapeo.put("href", "inicio.jsp");
             } else if (accio.equals("login")) {
-
+                //si login OK -> send redirect inicio.publicador
+                //si login KO -> inicio.JSP con errores
                 mapeo.put("titulo", "El Publicador Web");
                 mapeo.put("href", "inicio.jsp");
+            } else if (idUsuarioConectado == null) {
+                //En este punto no dejamos pasat usuarios sin identificar
+                //send redirect a inicio.publicador
+            } else if (accio.equals("registrarse")) {
+                //Si registro ok -> send redirecto inicio.publicador
+                //sino -> inicio.jsp con errores
+            } else if (accio.equals("verMensajes")) {
+                //pues la lista sin mas
+            } else if (accio.equals("enviarMensaje")) {
+                //siempre sendredirect para evitar F5 con mensaje ok o ko
+            } else if (accio.equals("vincularTwitter")) {
+                //TODO
+            } else if (accio.equals("vincularFacebook")) {
+                //TODO
+            } else if (accio.equals("vincularGooglr")) {
+                //TODO
+            } else if (accio.equals("salir")) {
+                //Borramos de sesion i sendredirect a incio.jsp
             }
 
-            request.setAttribute("mapeo", mapeo);
-            dispatch.forward(request, response);
+            if (!redireccionActiva) {
+                request.setAttribute("mapeo", mapeo);
+                dispatch.forward(request, response);
+            }
         } else {
             response.sendRedirect("inicio.publicador");
         }

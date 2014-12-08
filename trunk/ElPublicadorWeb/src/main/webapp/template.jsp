@@ -43,7 +43,7 @@
                                                     <div id="navbar" class="navbar-collapse collapse">
                                                         <form class="navbar-form navbar-right" role="form">
                                                             <div class="form-group">
-                                                                <input type="user" id="inputEmailMenu" class="form-control" placeholder="Usuario" required="">
+                                                                <input type="email" id="inputEmailMenu" class="form-control" placeholder="Email" required="">
                                                             </div>
                                                             <div class="form-group">
                                                                 <input type="password" id="inputPasswordMenu" class="form-control" placeholder="Password" required="">

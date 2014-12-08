@@ -30,8 +30,6 @@ public class MainTest {
                     System.out.println(nombre);
                     s.close();
                     con.close();
-        } catch (NamingException ex) {
-            Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
         }

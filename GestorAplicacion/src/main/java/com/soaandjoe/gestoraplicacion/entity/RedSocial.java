@@ -1,14 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.soaandjoe.gestoraplicacion.entity;
 
 /**
  *
  * @author andres
  */
-public class RedSocial {
+public enum RedSocial {
+
+    TWITTER(1),
+    FACEBOOK(2),
+    GOOGLE(3);
+
+    private final int idRedSocial;
+
+    private RedSocial(int idRedSocial) {
+        this.idRedSocial = idRedSocial;
+    }
+
+    public int getIdRedSocial() {
+        return idRedSocial;
+    }
     
+    public static synchronized RedSocial getRedSocialById(int idRedSocial){
+        for (RedSocial redSocial : RedSocial.values()) {
+            if(redSocial.getIdRedSocial() == idRedSocial){
+                return redSocial;
+            }
+        }
+        return null;
+    }
 }

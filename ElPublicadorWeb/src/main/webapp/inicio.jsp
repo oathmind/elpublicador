@@ -11,8 +11,8 @@
             <div class="col-md-4">
                 <form class="form-signin" role="form">
                     <h2 class="form-signin-heading">Entrar en el sitio</h2>
-                    <label for="user" class="sr-only">Usuario</label>
-                    <input type="user" id="inputEmail" class="form-control" placeholder="Usuario" required="" autofocus="">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="">
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
                     <div class="checkbox">

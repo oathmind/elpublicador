@@ -43,7 +43,7 @@
                                                     <c:if test="${not empty idUsuario}">
                                                         <div id="navbar" class="navbar-collapse collapse">
                                                             <form class="navbar-form navbar-right" method="GET" action="salir.publicador" role="form">
-                                                                <button type="submit" class="btn btn-success">Salir</button>
+                                                                <button type="submit" class="btn btn-danger">Salir</button>
                                                             </form>
                                                         </div>
                                                     </c:if><!--/.navbar-collapse -->

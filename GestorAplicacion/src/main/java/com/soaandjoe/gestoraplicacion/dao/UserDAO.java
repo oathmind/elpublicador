@@ -53,7 +53,7 @@ public class UserDAO {
 
             String passwordEncriptado = new ValidadorLlamadas().toMd5(password);
             
-            ps = c.prepareStatement("insert into user (id_usuario, email, nombre, password) values ((select max(id_usuario) + 1 from user), ?, ?, ?)");
+            ps = c.prepareStatement("insert into user (id_usuario, email, nombre, password) values ((select max(us.id_usuario) + 1 from user us), ?, ?, ?)");
             ps.setString(1, email);
             ps.setString(2, nombre);
             ps.setString(3, passwordEncriptado);

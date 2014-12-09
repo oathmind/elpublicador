@@ -1,11 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://gestoraplicacion.soaandjoe.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="gestorAplicacion" targetNamespace="http://gestoraplicacion.soaandjoe.com/">
     <wsdl:types>
         <xs:schema targetNamespace="http://gestoraplicacion.soaandjoe.com/">
-            <!--UC1 Obtencion de URL para vincular twitter-->
+            <!--UC1 Obtener Mensajes-->
             <xs:element name="obtenerHistoricoMensajes" type="tns:obtenerHistoricoMensajes"/>
             <xs:element name="obtenerHistoricoMensajesResponse" type="tns:obtenerHistoricoMensajesResponse"/>
+            <!--UC2 Identificar Usuario-->
+            <xs:element name="obtenerIdUsuario" type="tns:obtenerIdUsuario"/>
+            <xs:element name="obtenerIdUsuarioResponse" type="tns:obtenerIdUsuarioResponse"/>
+            <!--UC3 Registrarse-->
+            <xs:element name="registrarUsuario" type="tns:registrarUsuario"/>
+            <xs:element name="registrarUsuarioResponse" type="tns:registrarUsuarioResponse"/>
+            <!--UC4 ObtenerDashBoard-->
+            <xs:element name="obtenerDashBoard" type="tns:obtenerDashBoard"/>
+            <xs:element name="obtenerDashBoardResponse" type="tns:obtenerDashBoardResponse"/>
+            <!--UC5 Publicar Mensaje-->
+            <xs:element name="publicarMensaje" type="tns:publicarMensaje"/>
+            <xs:element name="publicarMensajeResponse" type="tns:publicarMensajeResponse"/>
+            <!--UC6.1 Vincular Twitter Step 1-->
+            <xs:element name="vincularTwitterStep1" type="tns:vincularTwitterStep1"/>
+            <xs:element name="vincularTwitterStep1Response" type="tns:vincularTwitterStep1Response"/>
+            <!--UC6.2 Vincular Twitter Step 2-->
+            <xs:element name="vincularTwitterStep2" type="tns:vincularTwitterStep2"/>
+            <xs:element name="vincularTwitterStep2Response" type="tns:vincularTwitterStep2Response"/>
            
-            <!--UC1 Obtencion de URL para vincular twitter-->
+            <!--UC1 Obtener Mensajes-->
             <xs:complexType name="obtenerHistoricoMensajes">
                 <xs:sequence>
                     <xs:element name="idUsuario" type="xs:int"/>
@@ -33,10 +51,117 @@
                     <xs:element name="google" type="xs:boolean"/>
                 </xs:sequence>
             </xs:complexType>
+            
+            <!--UC2 identificar Usuario-->
+            <xs:complexType name="obtenerIdUsuario">
+                <xs:sequence>
+                    <xs:element name="email" type="xs:string"/>
+                    <xs:element name="password" type="xs:string"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="obtenerIdUsuarioResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+            <!--UC3 Registrarse-->
+            <xs:complexType name="registrarUsuario">
+                <xs:sequence>
+                    <xs:element name="email" type="xs:string"/>
+                    <xs:element name="password" type="xs:string"/>
+                    <xs:element name="nombre" type="xs:string"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="registrarUsuarioResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+            <!--UC4 ObtenerDashBoard-->
+            <xs:complexType name="obtenerDashBoard">
+                <xs:sequence>
+                    <xs:element name="idUsuario" type="xs:int"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="obtenerDashBoardResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="tns:responseDashBoardBean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="responseDashBoardBean">
+                <xs:sequence>
+                    <xs:element name="nombreUsuario" type="xs:string"/>
+                    <xs:element name="ultimosMensajes" type="tns:mensajeBean" maxOccurs="unbounded"/> <!-- Bean ya declarado en UC1 -->
+                    <xs:element name="vinculadoTwitter" type="xs:boolean"/>
+                    <xs:element name="vinculadoFacebook" type="xs:boolean"/>
+                    <xs:element name="vinculadoGoogle" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+            <!--UC5 Publicar Mensaje-->
+            <xs:complexType name="publicarMensaje">
+                <xs:sequence>
+                    <xs:element name="mensaje" type="xs:string"/>
+                    <xs:element name="toTwitter" type="xs:boolean"/>
+                    <xs:element name="toFacebook" type="xs:boolean"/>
+                    <xs:element name="toGoogle" type="xs:boolean"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="publicarMensajeResponse">
+                <xs:sequence>
+                    <xs:element name="return" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+            <!--UC6.1 Vincular Twitter Step 1-->
+            <xs:complexType name="vincularTwitterStep1">
+                <xs:sequence>
+                    <xs:element name="idUsuario" type="xs:int"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="vincularTwitterStep1Response">
+                <xs:sequence>
+                    <xs:element name="return" type="tns:responseVincularTwitterStep1Bean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="responseVincularTwitterStep1Bean">
+                <xs:sequence>
+                    <xs:element name="url" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+            <!--UC6.2 Vincular Twitter Step 2-->
+            <xs:complexType name="vincularTwitterStep2">
+                <xs:sequence>
+                    <xs:element name="idUsuario" type="xs:int"/>
+                    <xs:element name="clave" type="xs:string"/>
+                    <xs:element name="timestamp" type="xs:long"/>
+                    <xs:element name="hash" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="vincularTwitterStep2Response">
+                <xs:sequence>
+                    <xs:element name="return" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            
         </xs:schema>
     </wsdl:types>
     
-    <!--UC1 Obtencion de URL para vincular twitter-->
+    <!--UC1 Obtener Mensajes-->
     <wsdl:message name="obtenerHistoricoMensajes">
         <wsdl:part name="parameters" element="tns:obtenerHistoricoMensajes">
         </wsdl:part>
@@ -47,18 +172,174 @@
         </wsdl:part>
     </wsdl:message>
     
+    <!--UC2 Identificar Usuario-->
+    <wsdl:message name="obtenerIdUsuario">
+        <wsdl:part name="parameters" element="tns:obtenerIdUsuario">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="obtenerIdUsuarioResponse">
+        <wsdl:part name="parameters" element="tns:obtenerIdUsuarioResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <!--UC3 Registrarse-->
+    <wsdl:message name="registrarUsuario">
+        <wsdl:part name="parameters" element="tns:registrarUsuario">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="registrarUsuarioResponse">
+        <wsdl:part name="parameters" element="tns:registrarUsuarioResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <!--UC4 ObtenerDashBoard-->
+    <wsdl:message name="obtenerDashBoard">
+        <wsdl:part name="parameters" element="tns:obtenerDashBoard">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="obtenerDashBoardResponse">
+        <wsdl:part name="parameters" element="tns:obtenerDashBoardResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <!--UC5 Publicar Mensaje-->
+    <wsdl:message name="publicarMensaje">
+        <wsdl:part name="parameters" element="tns:publicarMensaje">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="publicarMensajeResponse">
+        <wsdl:part name="parameters" element="tns:publicarMensajeResponse">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <!--UC6.1 Vincular Twitter Step 1-->
+    <wsdl:message name="vincularTwitterStep1">
+        <wsdl:part name="parameters" element="tns:vincularTwitterStep1">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="vincularTwitterStep1Response">
+        <wsdl:part name="parameters" element="tns:vincularTwitterStep1Response">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <!--UC6.2 Vincular Twitter Step 2-->
+    <wsdl:message name="vincularTwitterStep2">
+        <wsdl:part name="parameters" element="tns:vincularTwitterStep2">
+        </wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="vincularTwitterStep2Response">
+        <wsdl:part name="parameters" element="tns:vincularTwitterStep2Response">
+        </wsdl:part>
+    </wsdl:message>
+    
     <wsdl:portType name="gestorAplicacionWSCV">
-        <!--UC1 Obtencion de URL para vincular twitter-->
+        <!--UC1 Obtener Mensajes-->
         <wsdl:operation name="obtenerHistoricoMensajes">
             <wsdl:input message="tns:obtenerHistoricoMensajes"/>
             <wsdl:output message="tns:obtenerHistoricoMensajesResponse"/>
+        </wsdl:operation>
+        <!--UC2 Identificar Usuario-->
+        <wsdl:operation name="obtenerIdUsuario">
+            <wsdl:input message="tns:obtenerIdUsuario"/>
+            <wsdl:output message="tns:obtenerIdUsuarioResponse"/>
+        </wsdl:operation>
+        <!--UC3 Registrarse-->
+        <wsdl:operation name="registrarUsuario">
+            <wsdl:input message="tns:registrarUsuario"/>
+            <wsdl:output message="tns:registrarUsuarioResponse"/>
+        </wsdl:operation>
+        <!--UC4 ObtenerDashBoard-->
+        <wsdl:operation name="obtenerDashBoard">
+            <wsdl:input message="tns:obtenerDashBoard"/>
+            <wsdl:output message="tns:obtenerDashBoardResponse"/>
+        </wsdl:operation>
+        <!--UC5 Publicar Mensaje-->
+        <wsdl:operation name="publicarMensaje">
+            <wsdl:input message="tns:publicarMensaje"/>
+            <wsdl:output message="tns:publicarMensajeResponse"/>
+        </wsdl:operation>
+        <!--UC6.1 Vincular Twitter Step 1-->
+        <wsdl:operation name="vincularTwitterStep1">
+            <wsdl:input message="tns:vincularTwitterStep1"/>
+            <wsdl:output message="tns:vincularTwitterStep1Response"/>
+        </wsdl:operation>
+        <!--UC6.2 Vincular Twitter Step 2-->
+        <wsdl:operation name="vincularTwitterStep2">
+            <wsdl:input message="tns:vincularTwitterStep2"/>
+            <wsdl:output message="tns:vincularTwitterStep2Response"/>
         </wsdl:operation>
     </wsdl:portType>
     
     <wsdl:binding name="gestorAplicacionPortBinding" type="tns:gestorAplicacionWSCV">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-        <!--UC1 Obtencion de URL para vincular twitter-->
+        <!--UC1 Obtener Mensajes-->
         <wsdl:operation name="obtenerHistoricoMensajes">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC2 Identificar Usuario-->
+        <wsdl:operation name="obtenerIdUsuario">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC3 Registrarse-->
+        <wsdl:operation name="registrarUsuario">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC4 ObtenerDashBoard-->
+        <wsdl:operation name="obtenerDashBoard">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC5 Publicar Mensaje-->
+        <wsdl:operation name="publicarMensaje">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC6.1 Vincular Twitter Step 1-->
+        <wsdl:operation name="vincularTwitterStep1">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <!--UC6.2 Vincular Twitter Step 2-->
+        <wsdl:operation name="vincularTwitterStep2">
             <soap:operation soapAction=""/>
             <wsdl:input>
                 <soap:body use="literal"/>

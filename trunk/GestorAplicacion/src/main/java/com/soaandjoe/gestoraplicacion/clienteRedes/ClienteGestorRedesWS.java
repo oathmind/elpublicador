@@ -37,10 +37,4 @@ public class ClienteGestorRedesWS {
     }
 
 
-    public static void main(String[] args) {
-        ResponseURLVinculacionTwitterBean obtenerURLVinculacionTwitter = new ClienteGestorRedesWS().webService.obtenerURLVinculacionTwitter();
-        System.out.println(obtenerURLVinculacionTwitter.getUrl());
-        System.out.println(obtenerURLVinculacionTwitter.getToken());
-        System.out.println(obtenerURLVinculacionTwitter.getTokenSecret());
-    }
 }

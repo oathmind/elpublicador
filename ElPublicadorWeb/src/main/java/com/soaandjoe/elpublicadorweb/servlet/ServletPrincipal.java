@@ -1,5 +1,6 @@
 package com.soaandjoe.elpublicadorweb.servlet;
 
+import com.soaandjoe.elpublicadorweb.clienteWS.ClienteGestorAplicacionWS;
 import java.io.IOException;
 import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
@@ -34,34 +35,50 @@ public class ServletPrincipal extends HttpServlet {
             String accio = url.substring(url.lastIndexOf("/") + 1, url.indexOf(".publicador"));
 
             HttpSession sesio = request.getSession();
-            String idUsuarioConectado = (String) sesio.getAttribute("usuario");
+            Integer idUsuarioConectado = (Integer) sesio.getAttribute("usuario");
+            request.setAttribute("idUsuario", idUsuarioConectado);
 
             boolean redireccionActiva = false;
             RequestDispatcher dispatch = request.getRequestDispatcher("template.jsp");
             HashMap mapeo = new HashMap(2);
 
-            //1 recuperar parametros
-            //2 validacion sintactica i de tipos
-            //EJEMPLO, password == passwordRep, mail es un correo
-            //3 enciar a controladora con los datos"validados"
-            //4 retornar a la JSP lo que toque
-            //userGestor.registrar();
+            ClienteGestorAplicacionWS ws = new ClienteGestorAplicacionWS();
+
             if (accio.equals("inicio")) {
-                //Si usuario en sesion -> dashboard.jsp
-                //Si no hay usuario -> inicio.jsp
-                mapeo.put("titulo", "El Publicador Web");
-                mapeo.put("href", "inicio.jsp");
+                if (idUsuarioConectado != null) {
+                    //TODO obtener datos dashboarg
+                    mapeo.put("titulo", "El Publicador Web");
+                    mapeo.put("href", "dashboard.jsp");
+                } else {
+                    mapeo.put("titulo", "El Publicador Web");
+                    mapeo.put("href", "inicio.jsp");
+                }
             } else if (accio.equals("login")) {
-                //si login OK -> send redirect inicio.publicador
-                //si login KO -> inicio.JSP con errores
-                mapeo.put("titulo", "El Publicador Web");
-                mapeo.put("href", "inicio.jsp");
-            } else if (idUsuarioConectado == null) {
-                //En este punto no dejamos pasat usuarios sin identificar
-                //send redirect a inicio.publicador
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+
+                int idUsuario = -1;
+                if (email != null && password != null) {
+                    idUsuario = ws.identificarUsuario(email, password);
+                }
+
+                if (idUsuario != -1) {
+                    //OK, redrigimos a inicio
+                    sesio.setAttribute("usuario", idUsuario);
+                    response.sendRedirect("inicio.publicador");
+                    redireccionActiva = true;
+                } else {
+                    //Error volvemos a inicio
+                    mapeo.put("titulo", "El Publicador Web");
+                    mapeo.put("href", "inicio.jsp");
+                    request.setAttribute("error", "Identificacion Incorrecta");
+                }
             } else if (accio.equals("registrarse")) {
                 //Si registro ok -> send redirecto inicio.publicador
                 //sino -> inicio.jsp con errores
+            } else if (idUsuarioConectado == null) {
+                //En este punto no dejamos pasat usuarios sin identificar
+                //send redirect a inicio.publicador
             } else if (accio.equals("verMensajes")) {
                 //pues la lista sin mas
             } else if (accio.equals("enviarMensaje")) {
@@ -73,7 +90,9 @@ public class ServletPrincipal extends HttpServlet {
             } else if (accio.equals("vincularGooglr")) {
                 //TODO
             } else if (accio.equals("salir")) {
-                //Borramos de sesion i sendredirect a incio.jsp
+                sesio.invalidate();
+                response.sendRedirect("inicio.publicador");
+                redireccionActiva = true;
             }
 
             if (!redireccionActiva) {

@@ -40,21 +40,22 @@
                                                         </button>
                                                         <a class="navbar-brand" href="#">El Publicador</a>
                                                     </div>
-                                                    <div id="navbar" class="navbar-collapse collapse">
-                                                        <form class="navbar-form navbar-right" role="form">
-                                                            <div class="form-group">
-                                                                <input type="email" id="inputEmailMenu" class="form-control" placeholder="Email" required="">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input type="password" id="inputPasswordMenu" class="form-control" placeholder="Password" required="">
-                                                            </div>
-                                                            <button type="submit" class="btn btn-success">Entrar</button>
-                                                        </form>
-                                                    </div><!--/.navbar-collapse -->
+                                                    <c:if test="${not empty idUsuario}">
+                                                        <div id="navbar" class="navbar-collapse collapse">
+                                                            <form class="navbar-form navbar-right" method="GET" action="salir.publicador" role="form">
+                                                                <button type="submit" class="btn btn-success">Salir</button>
+                                                            </form>
+                                                        </div>
+                                                    </c:if><!--/.navbar-collapse -->
                                                 </div>
                                             </nav>
-
-
+                                            <c:if test="${not empty error}">
+                                                <div class="alert alert-danger" role="alert">
+                                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                    <span class="sr-only">Error:</span>
+                                                    ${error}
+                                                </div>
+                                            </c:if>
                                             <jsp:include flush="true" page="${mapeo.href}"></jsp:include>
 
                                             <hr>

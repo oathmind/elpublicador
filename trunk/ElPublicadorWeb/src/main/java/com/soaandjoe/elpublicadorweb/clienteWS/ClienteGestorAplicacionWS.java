@@ -34,5 +34,11 @@ public class ClienteGestorAplicacionWS {
         String hash = new GeneradorHash().generarHash("registrarUsuario", timestamp, email, password, nombre);
         return webService.registrarUsuario(email, password, nombre, timestamp, hash);
     }
+    
+    public ResponseDashBoardBean obtenerDashBoard(int idUsuario) {
+        long timestamp = System.currentTimeMillis();
+        String hash = new GeneradorHash().generarHash("obtenerDashBoard", timestamp, idUsuario);
+        return webService.obtenerDashBoard(idUsuario, timestamp, hash);
+    }
 
 }

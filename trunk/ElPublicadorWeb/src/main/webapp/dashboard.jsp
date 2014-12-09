@@ -3,27 +3,89 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1>El Publicador</h1>
-        <p>DASHBOAARD</p>
+        <h1>${nombreUsuario}</h1>
+        <div class="form-group">
+            <label for="mensaje">Nuevo Mensaje</label>
+            <textarea class="form-control" rows="5" name="mensaje" id="mensaje"></textarea>
+            <label>
+                <input type="checkbox" <c:if test="${not vinculadoFacebook}">disabled="disabled"</c:if> name="facebook" value="facebook"/> Facebook
+                </label>
+                <label>
+                    <input type="checkbox" <c:if test="${not vinculadoTwitter}">disabled="disabled"</c:if> name="twitter" value="twitter"/> Twitter
+                </label>
+                <label>
+                    <input type="checkbox" <c:if test="${not vinculadoGoogle}">disabled="disabled"</c:if> name="google" value="google"/> Google+
+                </label>
+                <button style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block" type="submit">Enviar Mensaje</button>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Ultimos Mensajes enviados <a class="btn btn-success" href="#" role="button">Ver Todos</a></div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Mensaje</th>
+                            <th>Facebook</th>
+                            <th>Twitter</th>
+                            <th>Google</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${ultimosMensajes}" var="mensaje">
+                        <tr>
+                            <td>${mensaje.mensaje}</td>
+                            <td>${mensaje.facebook}</td>
+                            <td>${mensaje.twitter}</td>
+                            <td>${mensaje.google}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+</div>
+
+
+
+
 
 <div class="container">
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-4">
             <h2>Facebook</h2>
-            <p>Facebook es la mayor red social!</p>
-            <p><a class="btn btn-default" href="https://www.facebook.com/" target="_blank" role="button">Pagina oficial</a></p>
+            <c:choose>
+                <c:when test="${vinculadoFacebook}">
+                    <p>Vinculado!</p>
+                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Volver a vincular</a></p>
+                </c:when>
+                <c:otherwise>
+                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Vincular</a></p>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="col-md-4">
             <h2>Twitter</h2>
-            <p>Pocos caracteres pero mucho que decir.</p>
-            <p><a class="btn btn-default" href="https://twitter.com/" target="_blank" role="button">Pagina oficial</a></p>
+            <c:choose>
+                <c:when test="${vinculadoTwitter}">
+                    <p>Vinculado!</p>
+                    <p><a class="btn btn-default" href="vincularTwitter.publicador" target="_blank" role="button">Volver a vincular</a></p>
+                </c:when>
+                <c:otherwise>
+                    <p><a class="btn btn-default" href="vincularTwitter.publicador" target="_blank" role="button">Vincular</a></p>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="col-md-4">
             <h2>Google +</h2>
-            <p>La red social del gigante de internet.</p>
-            <p><a class="btn btn-default" href="https://plus.google.com/" target="_blank" role="button">Pagina oficial</a></p>
+            <c:choose>
+                <c:when test="${vinculadoGoogle}">
+                    <p>Vinculado!</p>
+                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Volver a vincular</a></p>
+                </c:when>
+                <c:otherwise>
+                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Vincular</a></p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>

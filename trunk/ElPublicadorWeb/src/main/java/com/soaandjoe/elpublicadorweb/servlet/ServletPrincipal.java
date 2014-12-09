@@ -1,8 +1,11 @@
 package com.soaandjoe.elpublicadorweb.servlet;
 
 import com.soaandjoe.elpublicadorweb.clienteWS.ClienteGestorAplicacionWS;
+import com.soaandjoe.elpublicadorweb.clienteWS.MensajeBean;
+import com.soaandjoe.elpublicadorweb.clienteWS.ResponseDashBoardBean;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,6 +50,20 @@ public class ServletPrincipal extends HttpServlet {
             if (accio.equals("inicio")) {
                 if (idUsuarioConectado != null) {
                     //TODO obtener datos dashboarg
+                    ResponseDashBoardBean datosDashBoard = ws.obtenerDashBoard(idUsuarioConectado);
+                    
+                    String nombreUsuario = datosDashBoard.getNombreUsuario();
+                    List<MensajeBean> ultimosMensajes = datosDashBoard.getUltimosMensajes();
+                    boolean vinculadoTwitter = datosDashBoard.isVinculadoTwitter();
+                    boolean vinculadoFacebook = datosDashBoard.isVinculadoFacebook();
+                    boolean vinculadoGoogle = datosDashBoard.isVinculadoGoogle();
+                    
+                    request.setAttribute("nombreUsuario", nombreUsuario);
+                    request.setAttribute("ultimosMensajes", ultimosMensajes);
+                    request.setAttribute("vinculadoTwitter", vinculadoTwitter);
+                    request.setAttribute("vinculadoFacebook", vinculadoFacebook);
+                    request.setAttribute("vinculadoGoogle", vinculadoGoogle);
+                    
                     mapeo.put("titulo", "Mi panel personal");
                     mapeo.put("href", "dashboard.jsp");
                 } else {
@@ -109,9 +126,9 @@ public class ServletPrincipal extends HttpServlet {
                 response.sendRedirect("inicio.publicador");
                 redireccionActiva = true;
             } else if (accio.equals("verMensajes")) {
-                //pues la lista sin mas
+                //TODO pues la lista sin mas
             } else if (accio.equals("enviarMensaje")) {
-                //siempre sendredirect para evitar F5 con mensaje ok o ko
+                //TODO siempre sendredirect para evitar F5 con mensaje ok o ko
             } else if (accio.equals("vincularTwitter")) {
                 //TODO
             } else if (accio.equals("vincularFacebook")) {

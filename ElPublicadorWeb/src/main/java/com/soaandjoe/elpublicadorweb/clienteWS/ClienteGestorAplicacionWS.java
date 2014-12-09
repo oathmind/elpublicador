@@ -11,6 +11,7 @@ import java.util.logging.Logger;
  * @author Joel
  */
 public class ClienteGestorAplicacionWS {
+
     GestorAplicacionWSCV webService;
 
     public ClienteGestorAplicacionWS() {
@@ -21,10 +22,17 @@ public class ClienteGestorAplicacionWS {
             webService = new GestorAplicacion().getGestorAplicacionPort();
         }
     }
-    
-    public int identificarUsuario(String email, String password){
+
+    public int identificarUsuario(String email, String password) {
         long timestamp = System.currentTimeMillis();
-        String hash = new GeneradorHash().generarHash("identificarUsuario",timestamp,  email, password);
+        String hash = new GeneradorHash().generarHash("identificarUsuario", timestamp, email, password);
         return webService.obtenerIdUsuario(email, password, timestamp, hash);
     }
+
+    public int registrarUsuario(String email, String password, String nombre) {
+        long timestamp = System.currentTimeMillis();
+        String hash = new GeneradorHash().generarHash("registrarUsuario", timestamp, email, password, nombre);
+        return webService.registrarUsuario(email, password, nombre, timestamp, hash);
+    }
+
 }

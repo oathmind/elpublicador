@@ -48,7 +48,7 @@ public class ValidadorLlamadas {
         return timestamp + VENTANA_TIEMPO > System.currentTimeMillis();
     }
 
-    private String toMd5(String elemento) {
+    public String toMd5(String elemento) {
         try {
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.reset();

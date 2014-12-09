@@ -47,7 +47,7 @@ public class ServletPrincipal extends HttpServlet {
             if (accio.equals("inicio")) {
                 if (idUsuarioConectado != null) {
                     //TODO obtener datos dashboarg
-                    mapeo.put("titulo", "El Publicador Web");
+                    mapeo.put("titulo", "Mi panel personal");
                     mapeo.put("href", "dashboard.jsp");
                 } else {
                     mapeo.put("titulo", "El Publicador Web");
@@ -74,11 +74,40 @@ public class ServletPrincipal extends HttpServlet {
                     request.setAttribute("error", "Identificacion Incorrecta");
                 }
             } else if (accio.equals("registrarse")) {
-                //Si registro ok -> send redirecto inicio.publicador
-                //sino -> inicio.jsp con errores
+                String email = request.getParameter("email");
+                String nombre = request.getParameter("nombre");
+                String password = request.getParameter("password");
+                String repassword = request.getParameter("repassword");
+
+                if (email != null && nombre != null && password != null && repassword != null) {
+
+                    if (password.equalsIgnoreCase(repassword)) {
+                        int idUsuario = ws.registrarUsuario(email, password, nombre);
+                        if (idUsuario != -1) {
+                            //OK, redrigimos a inicio
+                            sesio.setAttribute("usuario", idUsuario);
+                            response.sendRedirect("inicio.publicador");
+                            redireccionActiva = true;
+                        } else {
+                            //Error volvemos a inicio
+                            mapeo.put("titulo", "El Publicador Web");
+                            mapeo.put("href", "inicio.jsp");
+                            request.setAttribute("error", "Registro Incorrecto");
+                        }
+                    } else {
+                        mapeo.put("titulo", "El Publicador Web");
+                        mapeo.put("href", "inicio.jsp");
+                        request.setAttribute("error", "Los passwords no coinciden");
+                    }
+                } else {
+                    mapeo.put("titulo", "El Publicador Web");
+                    mapeo.put("href", "inicio.jsp");
+                    request.setAttribute("error", "Debe informar todos los campos");
+                }
             } else if (idUsuarioConectado == null) {
                 //En este punto no dejamos pasat usuarios sin identificar
-                //send redirect a inicio.publicador
+                response.sendRedirect("inicio.publicador");
+                redireccionActiva = true;
             } else if (accio.equals("verMensajes")) {
                 //pues la lista sin mas
             } else if (accio.equals("enviarMensaje")) {

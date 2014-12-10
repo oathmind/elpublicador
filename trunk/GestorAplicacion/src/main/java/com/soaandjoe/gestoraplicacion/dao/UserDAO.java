@@ -1,5 +1,6 @@
 package com.soaandjoe.gestoraplicacion.dao;
 
+import com.soaandjoe.gestoraplicacion.entity.User;
 import com.soaandjoe.gestoraplicacion.gestoraplicacionws.ValidadorLlamadas;
 import com.soaandjoe.gestoraplicacion.persistencia.Conexion;
 import java.sql.Connection;
@@ -52,15 +53,14 @@ public class UserDAO {
             c = Conexion.getConnexio();
 
             String passwordEncriptado = new ValidadorLlamadas().toMd5(password);
-            
+
             ps = c.prepareStatement("insert into user (id_usuario, email, nombre, password) values ((select max(us.id_usuario) + 1 from user us), ?, ?, ?)");
             ps.setString(1, email);
             ps.setString(2, nombre);
             ps.setString(3, passwordEncriptado);
-            
-            
+
             filasAfectadas = ps.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -69,4 +69,30 @@ public class UserDAO {
         return filasAfectadas != 0;
     }
 
+    public User obtenerUsuarioPorId(int idUsuario) {
+        Connection c = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        User usuario = null;
+        try {
+            c = Conexion.getConnexio();
+
+            ps = c.prepareStatement("select email, nombre from user where id_usuario = ?");
+            ps.setInt(1, idUsuario);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                usuario = new User();
+                usuario.setEmail(rs.getString("email"));
+                usuario.setNombre(rs.getString("nombre"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            Conexion.finalizarRecursos(rs, ps, c);
+        }
+        return usuario;
+    }
 }

@@ -1,13 +1,14 @@
 package com.soaandjoe.gestoraplicacion.gestoraplicacionws;
 
-import com.soaandjoe.gestoraplicacion.GestorAplicacionWSCV;
 import com.soaandjoe.gestoraplicacion.MensajeBean;
 import com.soaandjoe.gestoraplicacion.ResponseDashBoardBean;
 import com.soaandjoe.gestoraplicacion.ResponseHistoricoMensajesBean;
 import com.soaandjoe.gestoraplicacion.ResponseVincularTwitterStep1Bean;
 import com.soaandjoe.gestoraplicacion.dao.MensajeDAO;
 import com.soaandjoe.gestoraplicacion.dao.UserDAO;
+import com.soaandjoe.gestoraplicacion.dao.UserInfoRedDAO;
 import com.soaandjoe.gestoraplicacion.entity.Mensaje;
+import com.soaandjoe.gestoraplicacion.entity.User;
 import java.util.List;
 import javax.jws.WebService;
 
@@ -16,7 +17,7 @@ import javax.jws.WebService;
  * @author Joel
  */
 @WebService(serviceName = "gestorAplicacion", portName = "gestorAplicacionPort", endpointInterface = "com.soaandjoe.gestoraplicacion.GestorAplicacionWSCV", targetNamespace = "http://gestoraplicacion.soaandjoe.com/", wsdlLocation = "WEB-INF/wsdl/gestorAplicacion.wsdl")
-public class GestorAplicacionWS implements GestorAplicacionWSCV {
+public class GestorAplicacionWS {
 
     public ResponseHistoricoMensajesBean obtenerHistoricoMensajes(int idUsuario, long timestamp, String hash) {
 
@@ -74,19 +75,24 @@ public class GestorAplicacionWS implements GestorAplicacionWSCV {
 
         ResponseDashBoardBean respuesta = new ResponseDashBoardBean();
 
-        //TODO Obtener informacion del usuario
-        respuesta.setNombreUsuario("Joel Molins");
-        respuesta.setVinculadoTwitter(true);
-        respuesta.setVinculadoFacebook(false);
-        respuesta.setVinculadoGoogle(false);
+        
+        UserDAO usudao = new UserDAO();
+        User usuario = usudao.obtenerUsuarioPorId(idUsuario);
+        respuesta.setNombreUsuario(usuario.getNombre());
+        
+        //TODO Obtener informacion de vinculaciones
+        UserInfoRedDAO daovinculos = new UserInfoRedDAO();
+        respuesta.setVinculadoTwitter(daovinculos.estaVinculadoTwitter(idUsuario));
+        respuesta.setVinculadoFacebook(daovinculos.estaVinculadoFacebook(idUsuario));
+        respuesta.setVinculadoGoogle(daovinculos.estaVinculadoGoogle(idUsuario));
 
         List<MensajeBean> ultimosMensajes = respuesta.getUltimosMensajes();
 
-        MensajeDAO dao = new MensajeDAO();
+        MensajeDAO mensdao = new MensajeDAO();
 
-        List<Mensaje> mensajesBase = dao.obtenerMensajesUsuario(idUsuario);
+        List<Mensaje> mensajesBase = mensdao.obtenerMensajesUsuario(idUsuario);
 
-        for (int i = 0; i < mensajesBase.size() && i < 5; i++) {
+        for (int i = 0; i < mensajesBase.size() && i < 3; i++) {
             Mensaje mensaje = mensajesBase.get(i);
 
             MensajeBean bean = new MensajeBean();
@@ -104,9 +110,11 @@ public class GestorAplicacionWS implements GestorAplicacionWSCV {
         return respuesta;
     }
 
-    public boolean publicarMensaje(String mensaje, boolean toTwitter, boolean toFacebook, boolean toGoogle, long timestamp, String hash) {
+    public boolean publicarMensaje(int idUsuario, String mensaje, boolean toTwitter, boolean toFacebook, boolean toGoogle, long timestamp, String hash) {
 
-        new ValidadorLlamadas().validarLlamada(timestamp, hash, mensaje, toTwitter, toFacebook, toGoogle);
+        new ValidadorLlamadas().validarLlamada(timestamp, hash, idUsuario, mensaje, toTwitter, toFacebook, toGoogle);
+        
+        
         return true;
     }
 

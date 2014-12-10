@@ -34,11 +34,23 @@ public class ClienteGestorAplicacionWS {
         String hash = new GeneradorHash().generarHash("registrarUsuario", timestamp, email, password, nombre);
         return webService.registrarUsuario(email, password, nombre, timestamp, hash);
     }
-    
+
     public ResponseDashBoardBean obtenerDashBoard(int idUsuario) {
         long timestamp = System.currentTimeMillis();
         String hash = new GeneradorHash().generarHash("obtenerDashBoard", timestamp, idUsuario);
         return webService.obtenerDashBoard(idUsuario, timestamp, hash);
+    }
+
+    public ResponseHistoricoMensajesBean obtenerHistoricoMensajes(int idUsuario) {
+        long timestamp = System.currentTimeMillis();
+        String hash = new GeneradorHash().generarHash("obtenerHistoricoMensajes", timestamp, idUsuario);
+        return webService.obtenerHistoricoMensajes(idUsuario, timestamp, hash);
+    }
+
+    public boolean publicarMensaje(int idUsuario, String mensaje, boolean toTwitter, boolean toFacebook, boolean toGoogle) {
+        long timestamp = System.currentTimeMillis();
+        String hash = new GeneradorHash().generarHash("publicarMensaje", timestamp, idUsuario, mensaje, toTwitter, toFacebook, toGoogle);
+        return webService.publicarMensaje(idUsuario, mensaje, toTwitter, toFacebook, toGoogle, timestamp, hash);
     }
 
 }

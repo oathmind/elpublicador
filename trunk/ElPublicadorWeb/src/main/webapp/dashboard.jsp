@@ -7,19 +7,21 @@
         <div class="form-group">
             <label for="mensaje">Nuevo Mensaje</label>
             <textarea class="form-control" rows="5" name="mensaje" id="mensaje"></textarea>
-            <label>
-                <input type="checkbox" <c:if test="${not vinculadoFacebook}">disabled="disabled"</c:if> name="facebook" value="facebook"/> Facebook
-                </label>
+            <form class="form-signin" method="POST" role="form" action="enviarMensaje.publicador">
                 <label>
-                    <input type="checkbox" <c:if test="${not vinculadoTwitter}">disabled="disabled"</c:if> name="twitter" value="twitter"/> Twitter
-                </label>
-                <label>
-                    <input type="checkbox" <c:if test="${not vinculadoGoogle}">disabled="disabled"</c:if> name="google" value="google"/> Google+
-                </label>
-                <button style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block" type="submit">Enviar Mensaje</button>
+                    <input type="checkbox" <c:if test="${not vinculadoFacebook}">disabled="disabled"</c:if> name="facebook" value="facebook"/> Facebook
+                    </label>
+                    <label>
+                        <input type="checkbox" <c:if test="${not vinculadoTwitter}">disabled="disabled"</c:if> name="twitter" value="twitter"/> Twitter
+                    </label>
+                    <label>
+                        <input type="checkbox" <c:if test="${not vinculadoGoogle}">disabled="disabled"</c:if> name="google" value="google"/> Google+
+                    </label>
+                    <button style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block" type="submit">Enviar Mensaje</button>
+                </form>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Ultimos Mensajes enviados <a class="btn btn-success" href="#" role="button">Ver Todos</a></div>
+                <div class="panel-heading">Ultimos Mensajes enviados <a class="btn btn-success" href="verMensajes.publicador" role="button">Ver Todos</a></div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -43,11 +45,6 @@
         </div>
     </div>
 </div>
-</div>
-
-
-
-
 
 <div class="container">
     <!-- Example row of columns -->
@@ -89,3 +86,4 @@
             </c:choose>
         </div>
     </div>
+</div>

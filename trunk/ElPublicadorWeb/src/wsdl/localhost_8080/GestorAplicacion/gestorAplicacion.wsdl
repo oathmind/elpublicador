@@ -109,6 +109,7 @@
             <!--UC5 Publicar Mensaje-->
             <xs:complexType name="publicarMensaje">
                 <xs:sequence>
+                    <xs:element name="idUsuario" type="xs:int"/>
                     <xs:element name="mensaje" type="xs:string"/>
                     <xs:element name="toTwitter" type="xs:boolean"/>
                     <xs:element name="toFacebook" type="xs:boolean"/>

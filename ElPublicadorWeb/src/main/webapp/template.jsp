@@ -38,7 +38,7 @@
                                                             <span class="icon-bar"></span>
                                                             <span class="icon-bar"></span>
                                                         </button>
-                                                        <a class="navbar-brand" href="#">El Publicador</a>
+                                                        <a class="navbar-brand" href="inicio.publicador">El Publicador</a>
                                                     </div>
                                                     <c:if test="${not empty idUsuario}">
                                                         <div id="navbar" class="navbar-collapse collapse">

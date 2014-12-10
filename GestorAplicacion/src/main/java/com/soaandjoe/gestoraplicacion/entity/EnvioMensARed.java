@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.soaandjoe.gestoraplicacion.entity;
 
 /**
@@ -10,5 +5,24 @@ package com.soaandjoe.gestoraplicacion.entity;
  * @author andres
  */
 public class EnvioMensARed {
-    
+
+    private int idMensaje;
+    private RedSocial red;
+
+    public int getIdMensaje() {
+        return idMensaje;
+    }
+
+    public void setIdMensaje(int idMensaje) {
+        this.idMensaje = idMensaje;
+    }
+
+    public RedSocial getRed() {
+        return red;
+    }
+
+    public void setRed(RedSocial red) {
+        this.red = red;
+    }
+
 }

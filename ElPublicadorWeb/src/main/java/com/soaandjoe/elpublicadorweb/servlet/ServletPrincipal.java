@@ -3,6 +3,7 @@ package com.soaandjoe.elpublicadorweb.servlet;
 import com.soaandjoe.elpublicadorweb.clienteWS.ClienteGestorAplicacionWS;
 import com.soaandjoe.elpublicadorweb.clienteWS.MensajeBean;
 import com.soaandjoe.elpublicadorweb.clienteWS.ResponseDashBoardBean;
+import com.soaandjoe.elpublicadorweb.clienteWS.ResponseHistoricoMensajesBean;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -51,19 +52,19 @@ public class ServletPrincipal extends HttpServlet {
                 if (idUsuarioConectado != null) {
                     //TODO obtener datos dashboarg
                     ResponseDashBoardBean datosDashBoard = ws.obtenerDashBoard(idUsuarioConectado);
-                    
+
                     String nombreUsuario = datosDashBoard.getNombreUsuario();
                     List<MensajeBean> ultimosMensajes = datosDashBoard.getUltimosMensajes();
                     boolean vinculadoTwitter = datosDashBoard.isVinculadoTwitter();
                     boolean vinculadoFacebook = datosDashBoard.isVinculadoFacebook();
                     boolean vinculadoGoogle = datosDashBoard.isVinculadoGoogle();
-                    
+
                     request.setAttribute("nombreUsuario", nombreUsuario);
                     request.setAttribute("ultimosMensajes", ultimosMensajes);
                     request.setAttribute("vinculadoTwitter", vinculadoTwitter);
                     request.setAttribute("vinculadoFacebook", vinculadoFacebook);
                     request.setAttribute("vinculadoGoogle", vinculadoGoogle);
-                    
+
                     mapeo.put("titulo", "Mi panel personal");
                     mapeo.put("href", "dashboard.jsp");
                 } else {
@@ -127,8 +128,21 @@ public class ServletPrincipal extends HttpServlet {
                 redireccionActiva = true;
             } else if (accio.equals("verMensajes")) {
                 //TODO pues la lista sin mas
+                ResponseHistoricoMensajesBean obtenerHistoricoMensajes = ws.obtenerHistoricoMensajes(idUsuarioConectado);
+                List<MensajeBean> mensajes = obtenerHistoricoMensajes.getMensajes();
+                request.setAttribute("mensajes", mensajes);
+                mapeo.put("titulo", "Mensajes del usuario");
+                mapeo.put("href", "mensajes.jsp");
             } else if (accio.equals("enviarMensaje")) {
                 //TODO siempre sendredirect para evitar F5 con mensaje ok o ko
+                String mensaje = request.getParameter("mensaje");
+                boolean twitter = request.getParameter("twitter") != null;
+                boolean facebook = request.getParameter("facebook") != null;
+                boolean google = request.getParameter("google") != null;
+
+                ws.publicarMensaje(idUsuarioConectado, mensaje, twitter, facebook, google);
+                response.sendRedirect("inicio.publicador");
+                redireccionActiva = true;
             } else if (accio.equals("vincularTwitter")) {
                 //TODO
             } else if (accio.equals("vincularFacebook")) {

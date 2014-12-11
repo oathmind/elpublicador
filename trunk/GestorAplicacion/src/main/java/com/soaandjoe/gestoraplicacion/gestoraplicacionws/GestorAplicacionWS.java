@@ -4,6 +4,9 @@ import com.soaandjoe.gestoraplicacion.MensajeBean;
 import com.soaandjoe.gestoraplicacion.ResponseDashBoardBean;
 import com.soaandjoe.gestoraplicacion.ResponseHistoricoMensajesBean;
 import com.soaandjoe.gestoraplicacion.ResponseVincularTwitterStep1Bean;
+import com.soaandjoe.gestoraplicacion.clienteRedes.ClienteGestorRedesWS;
+import com.soaandjoe.gestoraplicacion.clienteRedes.ConfiguracionesRedesBean;
+import com.soaandjoe.gestoraplicacion.clienteRedes.ResponseMensajeBean;
 import com.soaandjoe.gestoraplicacion.dao.MensajeDAO;
 import com.soaandjoe.gestoraplicacion.dao.UserDAO;
 import com.soaandjoe.gestoraplicacion.dao.UserInfoRedDAO;
@@ -75,11 +78,10 @@ public class GestorAplicacionWS {
 
         ResponseDashBoardBean respuesta = new ResponseDashBoardBean();
 
-        
         UserDAO usudao = new UserDAO();
         User usuario = usudao.obtenerUsuarioPorId(idUsuario);
         respuesta.setNombreUsuario(usuario.getNombre());
-        
+
         //TODO Obtener informacion de vinculaciones
         UserInfoRedDAO daovinculos = new UserInfoRedDAO();
         respuesta.setVinculadoTwitter(daovinculos.estaVinculadoTwitter(idUsuario));
@@ -114,8 +116,26 @@ public class GestorAplicacionWS {
 
         new ValidadorLlamadas().validarLlamada(timestamp, hash, idUsuario, mensaje, toTwitter, toFacebook, toGoogle);
         
+        ConfiguracionesRedesBean configuraciones = new ConfiguracionesRedesBean();
+
+        UserInfoRedDAO daoRedes = new UserInfoRedDAO();
+
+        if (toTwitter) {
+            configuraciones.setCodigosTwitter(daoRedes.obtenerTokensTwitter(idUsuario));
+        }
+        if (toFacebook) {
+            //TODO
+        }
+        if (toGoogle) {
+            //TODO
+        }
+
+        ClienteGestorRedesWS ws = new ClienteGestorRedesWS();
+        ResponseMensajeBean respuesta = ws.publicarMensaje(mensaje, configuraciones);
         
-        return true;
+        //TODO GUARDAR EN BASE DE DATOS CON LOS OK de cada red
+
+        return respuesta.isFacebookOk() || respuesta.isGoogleOk() || respuesta.isTwitterOk();
     }
 
     public ResponseVincularTwitterStep1Bean vincularTwitterStep1(int idUsuario, long timestamp, String hash) {

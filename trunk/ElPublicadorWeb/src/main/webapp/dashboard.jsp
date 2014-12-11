@@ -6,8 +6,8 @@
         <h1>${nombreUsuario}</h1>
         <div class="form-group">
             <label for="mensaje">Nuevo Mensaje</label>
-            <textarea class="form-control" rows="5" name="mensaje" id="mensaje"></textarea>
             <form class="form-signin" method="POST" role="form" action="enviarMensaje.publicador">
+                <textarea class="form-control" rows="5" name="mensaje" id="mensaje"></textarea>
                 <label>
                     <input type="checkbox" <c:if test="${not vinculadoFacebook}">disabled="disabled"</c:if> name="facebook" value="facebook"/> Facebook
                     </label>

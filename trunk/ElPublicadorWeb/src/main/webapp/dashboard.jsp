@@ -6,8 +6,9 @@
         <h1>${nombreUsuario}</h1>
         <div class="form-group">
             <label for="mensaje">Nuevo Mensaje</label>
-            <form class="form-signin" method="POST" role="form" action="enviarMensaje.publicador">
-                <textarea class="form-control" rows="5" name="mensaje" id="mensaje"></textarea>
+            <form id="envioRedesForm" class="form-signin" method="POST" role="form" action="enviarMensaje.publicador">
+                <textarea class="form-control" rows="5" name="mensaje" id="mensaje" required=""></textarea>
+                <div><label class="control-label">Redes Sociales Destino</label></div>
                 <label>
                     <input type="checkbox" <c:if test="${not vinculadoFacebook}">disabled="disabled"</c:if> name="facebook" value="facebook"/> Facebook
                     </label>
@@ -26,6 +27,7 @@
                     <thead>
                         <tr>
                             <th>Mensaje</th>
+                            <th>Fecha</th>
                             <th>Facebook</th>
                             <th>Twitter</th>
                             <th>Google</th>
@@ -35,6 +37,7 @@
                     <c:forEach items="${ultimosMensajes}" var="mensaje">
                         <tr>
                             <td>${mensaje.mensaje}</td>
+                            <td>${mensaje.fecha}</td>
                             <td>${mensaje.facebook}</td>
                             <td>${mensaje.twitter}</td>
                             <td>${mensaje.google}</td>
@@ -54,10 +57,10 @@
             <c:choose>
                 <c:when test="${vinculadoFacebook}">
                     <p>Vinculado!</p>
-                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Volver a vincular</a></p>
+                    <p><a class="btn btn-default" href="#" role="button">Volver a vincular</a></p>
                 </c:when>
                 <c:otherwise>
-                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Vincular</a></p>
+                    <p><a class="btn btn-default" href="#" role="button">Vincular</a></p>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -66,10 +69,10 @@
             <c:choose>
                 <c:when test="${vinculadoTwitter}">
                     <p>Vinculado!</p>
-                    <p><a class="btn btn-default" href="vincularTwitter.publicador" target="_blank" role="button">Volver a vincular</a></p>
+                    <p><a class="btn btn-default" href="vincularTwitter.publicador" role="button">Volver a vincular</a></p>
                 </c:when>
                 <c:otherwise>
-                    <p><a class="btn btn-default" href="vincularTwitter.publicador" target="_blank" role="button">Vincular</a></p>
+                    <p><a class="btn btn-default" href="vincularTwitter.publicador" role="button">Vincular</a></p>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -78,10 +81,10 @@
             <c:choose>
                 <c:when test="${vinculadoGoogle}">
                     <p>Vinculado!</p>
-                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Volver a vincular</a></p>
+                    <p><a class="btn btn-default" href="#" role="button">Volver a vincular</a></p>
                 </c:when>
                 <c:otherwise>
-                    <p><a class="btn btn-default" href="#" target="_blank" role="button">Vincular</a></p>
+                    <p><a class="btn btn-default" href="#" role="button">Vincular</a></p>
                 </c:otherwise>
             </c:choose>
         </div>

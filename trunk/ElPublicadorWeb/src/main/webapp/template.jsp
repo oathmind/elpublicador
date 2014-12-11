@@ -24,6 +24,9 @@
                                     <link rel="stylesheet" href="css/main.css">
 
                                         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+                                                <script src="js/vendor/jquery-1.11.1.min.js"></script>
+                                                <script src="js/vendor/bootstrap.min.js"></script>
+                                                <script src="js/main.js"></script>
                                         </head>
                                         <body>
                                             <!--[if lt IE 7]>
@@ -63,11 +66,7 @@
                                                 <footer>
                                                     <p>&copy; El Publicador 2014</p>
                                                 </footer>
-                                                </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-                                                <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+                                                </div> <!-- /container --> 
 
-                                                <script src="js/vendor/bootstrap.min.js"></script>
-
-                                                <script src="js/main.js"></script>
                                         </body>
                                         </html>

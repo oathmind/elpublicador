@@ -4,6 +4,7 @@ import com.soaandjoe.elpublicadorweb.clienteWS.ClienteGestorAplicacionWS;
 import com.soaandjoe.elpublicadorweb.clienteWS.MensajeBean;
 import com.soaandjoe.elpublicadorweb.clienteWS.ResponseDashBoardBean;
 import com.soaandjoe.elpublicadorweb.clienteWS.ResponseHistoricoMensajesBean;
+import com.soaandjoe.elpublicadorweb.clienteWS.ResponseVincularTwitterStep1Bean;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -141,7 +142,7 @@ public class ServletPrincipal extends HttpServlet {
                 boolean google = request.getParameter("google") != null;
 
                 if (twitter || facebook || google) {
-                    if (mensaje != null) {
+                    if (mensaje != null && !mensaje.trim().equals("")) {
                         boolean respuesta = ws.publicarMensaje(idUsuarioConectado, mensaje, twitter, facebook, google);
                         response.sendRedirect("inicio.publicador");
                         redireccionActiva = true;
@@ -149,22 +150,37 @@ public class ServletPrincipal extends HttpServlet {
                             response.sendRedirect("inicio.publicador?error=No se ha podido publicar el mensaje");
                             redireccionActiva = true;
                         }
-                    }else{
-                    response.sendRedirect("inicio.publicador?error=Debe escribir un mensaje");
-                    redireccionActiva = true;
+                    } else {
+                        response.sendRedirect("inicio.publicador?error=Debe escribir un mensaje");
+                        redireccionActiva = true;
                     }
                 } else {
                     response.sendRedirect("inicio.publicador?error=Debe seleccionar una red social");
                     redireccionActiva = true;
                 }
             } else if (accio.equals("vincularTwitter")) {
-                //TODO
+                ResponseVincularTwitterStep1Bean vincularTwitterStep1 = ws.vincularTwitterStep1(idUsuarioConectado);
+
+                request.setAttribute("URL", vincularTwitterStep1.getUrl());
+
+                mapeo.put("titulo", "Vincular TWITTER");
+                mapeo.put("href", "twitter.jsp");
+            } else if (accio.equals("vincularTwitter2")) {
+                String clave = request.getParameter("clave");
+                
+                boolean vincularTwitterStep2 = ws.vincularTwitterStep2(idUsuarioConectado, clave);
+
+                response.sendRedirect("inicio.publicador");
+                redireccionActiva = true;;
             } else if (accio.equals("vincularFacebook")) {
                 //TODO
             } else if (accio.equals("vincularGooglr")) {
                 //TODO
             } else if (accio.equals("salir")) {
                 sesio.invalidate();
+                response.sendRedirect("inicio.publicador");
+                redireccionActiva = true;
+            } else {
                 response.sendRedirect("inicio.publicador");
                 redireccionActiva = true;
             }

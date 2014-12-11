@@ -5,8 +5,13 @@ import com.soaandjoe.gestoraplicacion.ResponseDashBoardBean;
 import com.soaandjoe.gestoraplicacion.ResponseHistoricoMensajesBean;
 import com.soaandjoe.gestoraplicacion.ResponseVincularTwitterStep1Bean;
 import com.soaandjoe.gestoraplicacion.clienteRedes.ClienteGestorRedesWS;
+import com.soaandjoe.gestoraplicacion.clienteRedes.CodigosTwitterBean;
 import com.soaandjoe.gestoraplicacion.clienteRedes.ConfiguracionesRedesBean;
 import com.soaandjoe.gestoraplicacion.clienteRedes.ResponseMensajeBean;
+import com.soaandjoe.gestoraplicacion.clienteRedes.ResponseTokenFinalTwitterBean;
+import com.soaandjoe.gestoraplicacion.clienteRedes.ResponseURLVinculacionTwitterBean;
+import com.soaandjoe.gestoraplicacion.clienteRedes.TokenFinalTwitterBean;
+import com.soaandjoe.gestoraplicacion.dao.EnvioMensARedDAO;
 import com.soaandjoe.gestoraplicacion.dao.MensajeDAO;
 import com.soaandjoe.gestoraplicacion.dao.UserDAO;
 import com.soaandjoe.gestoraplicacion.dao.UserInfoRedDAO;
@@ -39,6 +44,7 @@ public class GestorAplicacionWS {
             bean.setIdMensaje(mensaje.getIdMensaje());
             bean.setIdUsuario(mensaje.getIdUsuario());
             bean.setMensaje(mensaje.getMensaje());
+            bean.setFecha(mensaje.getFecha());
             bean.setTwitter(mensaje.isEsTwitter());
             bean.setFacebook(mensaje.isEsFacebook());
             bean.setGoogle(mensaje.isEsGoogle());
@@ -102,6 +108,7 @@ public class GestorAplicacionWS {
             bean.setIdMensaje(mensaje.getIdMensaje());
             bean.setIdUsuario(mensaje.getIdUsuario());
             bean.setMensaje(mensaje.getMensaje());
+            bean.setFecha(mensaje.getFecha());
             bean.setTwitter(mensaje.isEsTwitter());
             bean.setFacebook(mensaje.isEsFacebook());
             bean.setGoogle(mensaje.isEsGoogle());
@@ -133,20 +140,60 @@ public class GestorAplicacionWS {
         ClienteGestorRedesWS ws = new ClienteGestorRedesWS();
         ResponseMensajeBean respuesta = ws.publicarMensaje(mensaje, configuraciones);
         
-        //TODO GUARDAR EN BASE DE DATOS CON LOS OK de cada red
+        boolean enviadoTwitter = respuesta.isTwitterOk();
+        boolean enviadoFacebook = respuesta.isFacebookOk();
+        boolean enviadoGoogle = respuesta.isGoogleOk();
+        
+        MensajeDAO mensajeDAO = new MensajeDAO();
+        
+        int idMensaje = mensajeDAO.insertarMensaje(idUsuario, mensaje);
+        
+        EnvioMensARedDAO redesDAO = new EnvioMensARedDAO();
+        
+        redesDAO.setearRedesAMensaje(idMensaje, enviadoTwitter, enviadoFacebook, enviadoGoogle);
 
-        return respuesta.isFacebookOk() || respuesta.isGoogleOk() || respuesta.isTwitterOk();
+        return enviadoTwitter || enviadoFacebook || enviadoGoogle;
     }
 
     public ResponseVincularTwitterStep1Bean vincularTwitterStep1(int idUsuario, long timestamp, String hash) {
 
         new ValidadorLlamadas().validarLlamada(timestamp, hash, idUsuario);
-        return null;
+        
+        ClienteGestorRedesWS ws = new ClienteGestorRedesWS();
+        
+        ResponseURLVinculacionTwitterBean datosTemporalesTwitter = ws.obtenerURLVinculacionTwitter();
+        
+        UserInfoRedDAO userInfoDAO = new UserInfoRedDAO();
+        
+        userInfoDAO.insertarActualizarTokensTemporalesTwitter(idUsuario, datosTemporalesTwitter.getToken(), datosTemporalesTwitter.getTokenSecret());
+        
+        ResponseVincularTwitterStep1Bean respuesta = new ResponseVincularTwitterStep1Bean();
+        
+        respuesta.setUrl(datosTemporalesTwitter.getUrl());
+        
+        return respuesta;
     }
 
     public boolean vincularTwitterStep2(int idUsuario, String clave, long timestamp, String hash) {
 
-        new ValidadorLlamadas().validarLlamada(timestamp, hash, idUsuario);
+        new ValidadorLlamadas().validarLlamada(timestamp, hash, idUsuario, clave);
+        
+        UserInfoRedDAO userInfoDAO = new UserInfoRedDAO();
+        
+        CodigosTwitterBean configuracionTwitterTemporal = userInfoDAO.obtenerTokensTemporalesTwitter(idUsuario);
+        
+        ClienteGestorRedesWS ws = new ClienteGestorRedesWS();
+        
+        TokenFinalTwitterBean informacionTemporal = new TokenFinalTwitterBean();
+        
+        informacionTemporal.setToken(configuracionTwitterTemporal.getToken());
+        informacionTemporal.setTokenSecret(configuracionTwitterTemporal.getTokenSecret());
+        informacionTemporal.setKey(clave);
+        
+        ResponseTokenFinalTwitterBean tokensFinales = ws.obtenerTokenFinalTwitter(informacionTemporal);
+        
+        userInfoDAO.insertarActualizarTokensFinalesTwitter(idUsuario, tokensFinales.getToken(), tokensFinales.getTokenSecret());
+        
         return true;
     }
 }

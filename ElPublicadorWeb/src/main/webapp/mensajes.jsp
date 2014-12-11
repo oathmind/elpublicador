@@ -11,6 +11,7 @@
                     <thead>
                         <tr>
                             <th>Mensaje</th>
+                            <th>Fecha</th>
                             <th>Facebook</th>
                             <th>Twitter</th>
                             <th>Google</th>
@@ -20,6 +21,7 @@
                     <c:forEach items="${mensajes}" var="mensaje">
                         <tr>
                             <td>${mensaje.mensaje}</td>
+                            <td>${mensaje.fecha}</td>
                             <td>${mensaje.facebook}</td>
                             <td>${mensaje.twitter}</td>
                             <td>${mensaje.google}</td>

@@ -41,7 +41,7 @@ public class GestorRedesWS {
         TwitterAppKeys clavesTwitter = new UtilGestorRedes().obtenerClavesTwitter();
         //hacemos la llamada a la libreria
         TwitterUtil tu = new TwitterUtil(clavesTwitter);
-        UrlKeyUsuario urlKeyUsu = new UrlKeyUsuario(tokenTemporal.getKey(), tokenTemporal.getTokenSecret(), tokenTemporal.getKey());
+        UrlKeyUsuario urlKeyUsu = new UrlKeyUsuario(tokenTemporal.getToken(), tokenTemporal.getTokenSecret(), tokenTemporal.getKey());
         TwitterUserTokens clavesParaURL = tu.obtenerTokensUsuario(urlKeyUsu);
         //Formatamos la respuesta
         ResponseTokenFinalTwitterBean valores = new ResponseTokenFinalTwitterBean();

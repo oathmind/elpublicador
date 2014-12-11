@@ -9,6 +9,7 @@ public class Mensaje {
     private Integer idMensaje;
     private Integer idUsuario;
     private String mensaje;
+    private String fecha;
     private boolean esTwitter;
     private boolean esFacebook;
     private boolean esGoogle;
@@ -59,6 +60,14 @@ public class Mensaje {
 
     public void setEsGoogle(boolean esGoogle) {
         this.esGoogle = esGoogle;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public void marcarRedSocial(RedSocial red) {

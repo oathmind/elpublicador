@@ -46,6 +46,7 @@
                     <xs:element name="idMensaje" type="xs:int"/>
                     <xs:element name="idUsuario" type="xs:int"/>
                     <xs:element name="mensaje" type="xs:string"/>
+                    <xs:element name="fecha" type="xs:string"/>
                     <xs:element name="twitter" type="xs:boolean"/>
                     <xs:element name="facebook" type="xs:boolean"/>
                     <xs:element name="google" type="xs:boolean"/>

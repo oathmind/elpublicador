@@ -52,5 +52,16 @@ public class ClienteGestorAplicacionWS {
         String hash = new GeneradorHash().generarHash("publicarMensaje", timestamp, idUsuario, mensaje, toTwitter, toFacebook, toGoogle);
         return webService.publicarMensaje(idUsuario, mensaje, toTwitter, toFacebook, toGoogle, timestamp, hash);
     }
-
+    
+    public ResponseVincularTwitterStep1Bean vincularTwitterStep1(int idUsuario) {
+        long timestamp = System.currentTimeMillis();
+        String hash = new GeneradorHash().generarHash("vincularTwitterStep1", timestamp, idUsuario);
+        return webService.vincularTwitterStep1(idUsuario, timestamp, hash);
+    }
+  
+    public boolean vincularTwitterStep2(int idUsuario, String clave) {
+        long timestamp = System.currentTimeMillis();
+        String hash = new GeneradorHash().generarHash("vincularTwitterStep2", timestamp, idUsuario, clave);
+        return webService.vincularTwitterStep2(idUsuario, clave, timestamp, hash);
+    }
 }

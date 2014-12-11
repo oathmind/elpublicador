@@ -140,9 +140,23 @@ public class ServletPrincipal extends HttpServlet {
                 boolean facebook = request.getParameter("facebook") != null;
                 boolean google = request.getParameter("google") != null;
 
-                ws.publicarMensaje(idUsuarioConectado, mensaje, twitter, facebook, google);
-                response.sendRedirect("inicio.publicador");
-                redireccionActiva = true;
+                if (twitter || facebook || google) {
+                    if (mensaje != null) {
+                        boolean respuesta = ws.publicarMensaje(idUsuarioConectado, mensaje, twitter, facebook, google);
+                        response.sendRedirect("inicio.publicador");
+                        redireccionActiva = true;
+                        if (!respuesta) {
+                            response.sendRedirect("inicio.publicador?error=No se ha podido publicar el mensaje");
+                            redireccionActiva = true;
+                        }
+                    }else{
+                    response.sendRedirect("inicio.publicador?error=Debe escribir un mensaje");
+                    redireccionActiva = true;
+                    }
+                } else {
+                    response.sendRedirect("inicio.publicador?error=Debe seleccionar una red social");
+                    redireccionActiva = true;
+                }
             } else if (accio.equals("vincularTwitter")) {
                 //TODO
             } else if (accio.equals("vincularFacebook")) {
@@ -155,6 +169,9 @@ public class ServletPrincipal extends HttpServlet {
                 redireccionActiva = true;
             }
 
+            if (request.getParameter("error") != null) {
+                request.setAttribute("error", request.getParameter("error"));
+            }
             if (!redireccionActiva) {
                 request.setAttribute("mapeo", mapeo);
                 dispatch.forward(request, response);

@@ -95,4 +95,29 @@ public class UserDAO {
         }
         return usuario;
     }
+    
+    
+    public int obtenerNumeroUsuariosRegistrados() {
+        Connection c = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int numUser = -1;
+        try {
+            c = Conexion.getConnexio();
+            
+            ps = c.prepareStatement("select count(*) as num_user from user");
+            
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                numUser = rs.getInt("num_user");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            Conexion.finalizarRecursos(rs, ps, c);
+        }
+        return numUser;
+    }
 }

@@ -78,4 +78,28 @@ public class EnvioMensARedDAO {
         }
         return mensaje;
     }
+    
+    public int obtenerNumeroMensajesEnviados() {
+        Connection c = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int numMens = -1;
+        try {
+            c = Conexion.getConnexio();
+            
+            ps = c.prepareStatement("select count(*) as num_mens from envio_mens_a_red");
+            
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                numMens = rs.getInt("num_mens");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            Conexion.finalizarRecursos(rs, ps, c);
+        }
+        return numMens;
+    }
 }

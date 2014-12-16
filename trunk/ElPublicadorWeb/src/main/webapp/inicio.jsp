@@ -21,7 +21,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-4">
                 <form class="form-signin" method="POST" role="form" action="registrarse.publicador">
-                    <h2 class="form-signin-heading">Entrar en el sitio</h2>
+                    <h2 class="form-signin-heading">Registrarse</h2>
                     <label for="inputEmail" class="sr-only">Email</label>
                     <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" required="">
                     <label for="inputNombre" class="sr-only">Email</label>
